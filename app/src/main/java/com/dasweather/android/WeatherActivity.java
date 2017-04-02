@@ -1,5 +1,6 @@
 package com.dasweather.android;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.dasweather.android.gson.Forecast;
 import com.dasweather.android.gson.Weather;
+import com.dasweather.android.service.AutoUpdateService;
 import com.dasweather.android.util.HttpUitl;
 import com.dasweather.android.util.Utility;
 
@@ -36,7 +38,6 @@ import okhttp3.Response;
  */
 
 public class WeatherActivity extends AppCompatActivity {
-    private static final String API_KEY = "080610be38f64335813574484a13ea78";
     private ScrollView weatherLayout;
     private TextView titleCity;
     private TextView titleUpdateTime;
@@ -139,7 +140,7 @@ public class WeatherActivity extends AppCompatActivity {
     }
     public void requestWeather(final String weatherId){
         String weatherUrl = "http://guolin.tech/api/weather?cityid="+weatherId
-                +"&key="+API_KEY;
+                +"&key="+Utility.API_KEY;
         HttpUitl.sendOkHttpRequest(weatherUrl, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -212,5 +213,7 @@ public class WeatherActivity extends AppCompatActivity {
         carWashText.setText(carWash);
         sportText.setText(sport);
         weatherLayout.setVisibility(View.VISIBLE);
+        Intent intent = new Intent(this, AutoUpdateService.class);
+        startActivity(intent);
     }
 }

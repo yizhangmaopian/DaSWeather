@@ -19,6 +19,7 @@ import okhttp3.Callback;
  */
 
 public class Utility {
+    public static final String API_KEY = "080610be38f64335813574484a13ea78";
     /**
      * 解析省级数据
      */

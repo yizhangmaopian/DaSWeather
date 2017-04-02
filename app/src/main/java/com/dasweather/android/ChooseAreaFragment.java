@@ -2,9 +2,12 @@ package com.dasweather.android;
 
 import android.app.Fragment;
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.location.LocationListener;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -80,15 +83,20 @@ public class ChooseAreaFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if (currentLevel == LEVEL_PROVINCE){
                     selectedProvince = provinceList.get(i);
-                    //查询省列表
+                    //查询市列表
                     queryCities();
                 }else if (currentLevel == LEVEL_CITY){
                     selectCity = cityList.get(i);
-                    //查询市列表
+                    //查询县列表
                     queryCounties();
-                }else if (currentLevel == LEVEL_PROVINCE){
-                    //查询县区天气
+                }else if (currentLevel == LEVEL_COUNTY){
+                    String weatherId = countyList.get(i).getWeatherId();
+                    Intent intent = new Intent(getActivity(),WeatherActivity.class);
+                    intent.putExtra("weather_id",weatherId);
+                    startActivity(intent);
+                    getActivity().finish();
                 }
+                Log.d("choose","currentLevel="+currentLevel);
             }
         });
         backButton.setOnClickListener(new View.OnClickListener() {
